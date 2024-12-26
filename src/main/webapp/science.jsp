@@ -1,86 +1,117 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<jsp:useBean id="calculator" class="calculator.CalculatorBean" scope="session" />
 <!DOCTYPE html>
 <html>
 <head>
     <title>科学计算器</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Windows默认字体 */
-            background-color: #f3f3f3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+        
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: #f4f4f4; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
 
-        .calculator {
-            background: #333;
-            border-radius: 15px;
-            padding: 20px;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
 
-        h2 {
-            font-size: 24px;
-            color: white;
-            margin-bottom: 15px;
-        }
+.calculator {
+    background-color: #808080; 
+    border-radius: 15px; 
+    padding: 30px; 
+    width: 350px; 
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); 
+}
 
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            font-size: 32px;
-            color: #333;
-            background-color: #e4e4e4;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-align: right;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-        }
 
-        input[type="button"] {
-            width: 50px;
-            height: 50px;
-            font-size: 18px;
-            color: white;
-            background-color: #505050;
-            border: none;
-            border-radius: 10px;
-            margin: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
+h2 {
+    font-size: 26px; 
+    color: #333; 
+    margin-bottom: 25px; /
+}
 
-        input[type="button"]:hover {
-            background-color: #707070;
-        }
 
-        input[type="button"]:active {
-            background-color: #404040;
-        }
+input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    font-size: 36px; 
+    color: #333;
+    background-color: #f1f1f1; 
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: right;
+    box-sizing: border-box;
+    margin-bottom: 25px; 
+}
 
-        input[type="button"].equal {
-            background-color: #00b8d4;
-            color: white;
-        }
 
-        input[type="button"].equal:hover {
-            background-color: #0098a6;
-        }
+input[type="button"] {
+    width: 60px; 
+    height: 60px;
+    font-size: 24px;
+    color: white;
+    background-color: #505050; 
+    border: none;
+    border-radius: 12px; 
+    margin: 8px; 
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease; 
+}
 
-        .button-container {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            grid-gap: 10px;
-        }
 
-        .extra-buttons {
-            grid-column: span 2;
-        }
+input[type="button"]:hover {
+    background-color: #707070;
+    transform: translateY(-3px); 
+}
+
+
+input[type="button"]:active {
+    background-color: #404040;
+    transform: translateY(1px); 
+}
+
+
+input[type="button"].equal {
+    background-color: #00b8d4; 
+    color: white;
+}
+
+input[type="button"].equal:hover {
+    background-color: #0098a6;
+}
+
+input[type="button"].equal:active {
+    background-color: #007c8b;
+}
+
+
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-gap: 15px; 
+}
+
+
+.extra-buttons {
+    grid-column: span 2; 
+}
+
+
+input[type="button"].clear {
+    background-color: #ff7043; 
+}
+
+input[type="button"].clear:hover {
+    background-color: #f4511e;
+}
+
+input[type="button"].clear:active {
+    background-color: #d32f2f; 
+}
+
 
     </style>
 </head>
@@ -88,7 +119,7 @@
     <div class="calculator">
         <h2>科学计算器</h2>
         <form method="post">
-            <input type="text" name="result" value="<%= request.getParameter("result") != null ? request.getParameter("result") : "" %>" disabled />
+            <input type="text" id="resultInput" name="result" value="<%= request.getParameter("result") != null ? request.getParameter("result") : "" %>" disabled />
             <div class="button-container">
                 <input type="button" value="C" onclick="clearResult()" />
                 <input type="button" value="1" onclick="addToResult('1')" />
@@ -115,13 +146,14 @@
                 <input type="button" value="(" onclick="addToResult('(')" />
                 <input type="button" value=")" onclick="addToResult(')')" />
                 <input type="button" value="=" onclick="calculate()" class="equal" />
-                
-
+                <input type="button" value="ANS" onclick="useLastResult()" />
             </div>
         </form>
     </div>
 
     <script>
+        let lastResult = ${calculator.lastResult};
+
         function addToResult(value) {
             const resultInput = document.querySelector('input[name="result"]');
             resultInput.value += value;
@@ -131,11 +163,25 @@
             document.querySelector('input[name="result"]').value = '';
         }
 
+        function useLastResult() {
+            const resultInput = document.querySelector('input[name="result"]');
+            if (resultInput.value === '') {
+                resultInput.value = lastResult;
+            }
+        }
+
         function calculate() {
             const resultInput = document.querySelector('input[name="result"]');
             try {
                 const result = eval(resultInput.value);
                 resultInput.value = result;
+                lastResult = result;
+                
+                // 使用AJAX更新JavaBean中的结果
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'UpdateResult.jsp', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send('result=' + result);
             } catch (e) {
                 resultInput.value = '算术错误';
             }

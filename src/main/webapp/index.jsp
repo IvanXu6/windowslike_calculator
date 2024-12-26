@@ -4,79 +4,93 @@
 <head>
     <title>Windows 计算器</title>
     <style>
-        body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-        background-color: #e1e1e1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
+      body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
 
-    .calculator {
-        background: #333; 
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        padding: 20px;
-        width: 260px;
-        text-align: center;
-    }
 
-    h2 {
-        font-size: 24px;
-        color: white;
-        margin-bottom: 15px;
-    }
+.calculator {
+    background-color: #808080; 
+    border-radius: 15px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); 
+    padding: 30px;
+    width: 340px;
+    text-align: center;
+}
 
-    input[type="text"] {
-        width: 100%;
-        padding: 15px;
-        font-size: 32px;
-        color: #333;
-        background-color: #e4e4e4;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        text-align: right;
-        box-sizing: border-box;
-        margin-bottom: 20px;
-    }
 
-    input[type="button"] {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        color: white;
-        background-color: #505050;
-        border: none;
-        border-radius: 10px;
-        margin: 5px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-    }
+h2 {
+    font-size: 26px; 
+    color: #333; 
+    margin-bottom: 20px; 
+}
 
-    input[type="button"]:hover {
-        background-color: #707070;
-    }
 
-    input[type="button"]:active {
-        background-color: #404040;
-    }
+input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    font-size: 36px; 
+    color: #333;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: right;
+    box-sizing: border-box;
+    margin-bottom: 25px; 
+}
 
-    input[type="button"].equal {
-        background-color: #00b8d4;
-        color: white;
-    }
 
-    input[type="button"].equal:hover {
-        background-color: #0098a6;
-    }
+input[type="button"] {
+    width: 60px;
+    height: 60px;
+    font-size: 24px; 
+    color: white;
+    background-color: #4CAF50; 
+    border: none;
+    border-radius: 12px; 
+    margin: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
 
-    .button-container {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 10px;
-    }
+
+input[type="button"]:hover {
+    background-color: #45a049;
+    transform: translateY(-3px); 
+}
+
+
+input[type="button"]:active {
+    background-color: #388e3c;
+    transform: translateY(1px); 
+}
+
+
+input[type="button"].equal {
+    background-color: #00b8d4; 
+    color: white;
+}
+
+input[type="button"].equal:hover {
+    background-color: #0098a6;
+}
+
+input[type="button"].equal:active {
+    background-color: #007c8b;
+}
+
+
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-gap: 15px; 
+}
     </style>
 </head>
 <body>
